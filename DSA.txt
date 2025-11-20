@@ -1,0 +1,11 @@
+Which data structure follows the LIFO principle?  (a) Queue (b) Stack (c) Array (d) Tree|b
+In a queue, insertion is done at the: (a) Front (b) Middle (c) Rear (d) Top|c
+What is the time complexity of binary search in a sorted array? (a) O(n) (b) O(n log n) (c) O(log n) (d) O(1)|c
+Which data structure is used for recursion? (a) Queue (b) Tree (c) Stack (d) Graph|c
+Which of the following is a non-linear data structure? (a) Array (b) Linked List (c) Stack (d) Tree|d
+Which sorting algorithm has the best average case time complexity? (a) Bubble Sort (b) Selection Sort (c) Merge Sort (d) Insertion Sort|c
+Which traversal visits the root node first?(a) In-order(b) Pre-order(c) Post-order(d) Level-order|b
+A full binary tree with 7 nodes has how many leaf nodes? (a) 3 (b) 4 (c) 5 (d) 6|b
+Which data structure is ideal for implementing a priority queue?  (a) Array (b) Stack (c) Heap (d) Linked List|c
+What does a hash collision mean? (a) Two keys have the same value (b) Two keys map to the same index (c) The table is full (d) The key is not found|b
+Which graph traversal uses a queue? (a) DFS (b) Backtracking (c) BFS (d) Greedy|c

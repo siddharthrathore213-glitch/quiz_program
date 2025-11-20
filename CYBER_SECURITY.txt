@@ -1,0 +1,15 @@
+What does CIA stand for in cyber security?(a) Central Intelligence Agency(b) Confidentiality, Integrity, Availability(c) Cyber Investigation Agency(d) Computer Internet Access|b
+Which tool filters incoming and outgoing network traffic based on rules? (a) Antivirus (b) Malware (c) Firewall (d) Cookie|c
+What is a Trojan horse in cyber security? (a) A type of firewall (b) Malware that pretends to be legitimate software (c) A secure encryption protocol (d) A type of antivirus|b
+Which of the following is a secure protocol for web browsing? (a) HTTP (b) FTP (c) HTTPS (d) SMTP|c
+Which of the following is a form of social engineering? (a) Updating software (b) Installing a firewall (c) Pretending to be a bank employee to get passwords (d) Using strong passwords|c
+Which of the following is a sign of a phishing email? (a) It comes from a known contact (b) It asks for personal information (c) It has no attachments (d) It uses formal language|b
+What is the primary function of a honeypot in cyber security? (a) To speed up networks (b) To attract and detect attackers (c) To encrypt files (d) To back up data|b
+Which malware type encrypts files and demands payment? (a) Virus (b) Worm (c) Trojan (d) Ransomware|d
+What type of attack involves overwhelming a network with traffic to disrupt service? (a) Phishing (b) SQL Injection (c) Denial of Service (DoS) (d) Man-in-the-Middle|c
+Which of the following is a secure method for remote access to a private network? (a) FTP (b) HTTP (c) VPN (d) Telnet|c
+What does a packet filter firewall primarily inspect? (a) User credentials (b) Data content (c) IP addresses and ports (d) File size|c
+What is the primary function of a Zero Trust security model? (a) Trust all internal users (b) Verify every user and device before granting access (c) Block all external traffic (d) Use only firewalls for protection|b
+Which framework integrates network security with cloud services? (a) SASE (b) SDLC (c) OSI (d) TCP/IP|a
+Which of the following best describes a key difference between an IDS and an IPS? (a) An IDS blocks traffic while an IPS only monitors (b) An IPS blocks traffic while an IDS only monitors (c) An IDS is always inline, while an IPS is passive (d) An IPS generates alerts, while an IDS takes no action|b
+Which of the following attacks involves an attacker setting up a malicious DHCP server to provide false network configurations? (a) ARP Poisoning (b) DHCP Starvation (c) Rogue DHCP Server (d) DNS Spoofing|c

@@ -1,0 +1,14 @@
+What is the correct extension for a Python file? (a).py (b).txt (c).python (d).p|a 
+Is Python case-sensitive when dealing with identifiers? (a) No (b) Yes (c) Machine dependent (d) None|b
+Who developed Python? (a) Wick van Rossum(b) Rasmus Lerdorf(c) Guido van Rossum(d) Niene Stom|c
+Which keyword is used to define a function in Python? (a) Function (b) def (c) Fun (d) Define|b
+What is the output of print(4 + 3 % 5)? (a) 7 (b) 2 (c) 4 (d) 1|a
+Which construct is used to create anonymous functions? (a) pi (b) anonymous (c) lambda (d) noneWhich construct is used to create anonymous functions? (a) pi (b) anonymous (c) lambda (d) none|c
+What character is used for single-line comments in Python? (a) // (b) # (c) ! (d) /*|b
+Which operator is used for floor division? (a) / (b) % (c) // (d)\|c
+What will be the output of x<<2 if x=1? (a) 4 (b) 2 (c) 1 (d) 8|a
+Which built-in function works best with lambda for filtering values? (a) filter() (b) map() (c) reduce() (d) zip()|a
+Which of the following is true for variable names in Python?(a) Only underscore and ampersand allowed(b) Unlimited length(c) Must have leading and trailing underscores(d) None of the mentioned|b
+Which operator has the highest precedence in Python? (a) + (b) % (c) ** (d) //|c
+What is the data type of True in Python? (a) String (b) Integer (c) Boolean (d) Tuple|c
+What does list(map(lambda x: x*2, [1, 2, 3])) return? (a) [2, 4, 6] (b) [1, 2, 3] (c) [1, 4, 9] (d) Error|a
