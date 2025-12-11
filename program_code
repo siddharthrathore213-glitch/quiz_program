@@ -3,268 +3,236 @@ import os
 import random
 import datetime
 import time
+
 STUDENT_FILE = "student.json"
-students = {}
-score_entry={}
-score = 0
-logged_user = None
-def load_data():
-    global students
-    try:
-        with open(STUDENT_FILE,"r") as f:
-            students=json.load(f)
-    except FileNotFoundError:
-        students={}
-def save_data():
-    with open(STUDENT_FILE,'w') as f:
-        json.dump(students,f,indent=4)
-def register():
-    print("\n--- Student Registration ---")
-    username = input("Username: ")
-    if username in students:
-        print("Username already exists.")
-        return
-    password = input("Password: ")
-    name = input("Full Name: ")
-    age = input("Age: ")
-    gender = input("Gender: ")
-    email = input("Email: ")
-    phone = input("Phone: ")
-    address = input("Address: ")
-    course = input("Course Enrolled: ")
-    year = input("Year of Study: ")
-    roll = input("Roll Number: ")
-    semmark = input("previous semester marks: ")
 
-    students[username] = {
-        "password": password,
-        "profile": {
-            "Name": name,
-            "Age": age,
-            "Gender": gender,
-            "Email": email,
-            "Phone": phone,
-            "Address": address,
-            "Course": course,
-            "Year": year,
-            "Roll No": roll,
-            "previous semester marks": semmark},
-        "report":{'PYTHON':[],
-                 'DSA':[],
-                 'CYBER_SECURITY':[]}    
-        
-    }
-    save_data()
-    print("Registration successful.")        
 
-def score_profile():
-    if score==0:
-        print('no previous data')
-        return
+class StudentSystem:
+    def __init__(self):
+        self.students = {}
+        self.logged_user = None
+        self.load_data()
 
-    print("Your Score History:")
-    for category , attempt in students[logged_user]['report'].items():
-        print(f"{category}:")
-        print(f'{attempt}')
-    return         
+    def load_data(self):
+        try:
+            with open(STUDENT_FILE, "r") as f:
+                self.students = json.load(f)
+        except FileNotFoundError:
+            self.students = {}
 
-def take_quiz():
-    global students
-    global score
-    cname=None
-    print('1.PYTHON\n2.DSA\n3.CYBER_SECURITY')
-    cat=input('choose catagory (1 , 2 or 3)')
-    filename = ""
-    if cat == '1':
-        filename = 'catagories/PYTHON.txt'
-        cname = 'PYTHON'
-    elif cat == '2':
-        filename = 'catagories/DSA.txt'
-        cname = 'DSA'
-    elif cat == '3':
-        filename = 'catagories/CYBER_SECURITY.txt'
-        cname = 'CYBER_SECURITY'
-    else:
-        print("Invalid choice!")
-    
-    with open(filename,'r') as f:
-            lines = f.readlines()
-    if not  lines:
-             print("No questions available.")
-             return
-    questions = random.sample(lines,min(10,len(lines))) 
-    for line in questions:
-        line = line.strip()
-        if '|' not in line:
-            continue
-        question, correct_answer = line.split('|', 1)
-        print("Question:", question)
-        ans = input("Select option (a,b,c,d): ").strip().lower()
-        
-        while ans not in ['a', 'b', 'c', 'd']:
-            print("Enter a valid input from (a,b,c,d)")
-            ans = input("Select option (a,b,c,d): ").strip().lower()
+    def save_data(self):
+        with open(STUDENT_FILE, "w") as f:
+            json.dump(self.students, f, indent=4)
 
-        if ans == correct_answer.strip().lower():
-            print("Correct!")
-            score += 1
-        else:
-            print("Wrong! Correct answer was:", correct_answer)
-    time.sleep(1)
-    print(f"Quiz complete! Your score: {score}/{len(questions)}")
-    score_entry = {"date": datetime.date.today().isoformat(),
-                   "scores": score,
-                   "total": len(questions)}
-    with open(STUDENT_FILE,"r") as f:
-            students=json.load(f)               
-    students[logged_user]['report'][cname].append(score_entry)
-    with open(STUDENT_FILE, 'w') as f:
-            json.dump(students, f, indent=4)           
-   
-def login():
-    global logged_user
-    if logged_user:
-        print(f"Already logged in as '{logged_user}'. Please logout first.")
-        return
+    def register(self):
+        print("\n--- Student Registration ---")
+        username = input("Username: ")
+        if username in self.students:
+            print("Username already exists.")
+            return
 
-    print("\n--- Login ---")
-    username = input("Username: ")
-    password = input("Password: ")
-    if username in students and students[username]["password"] == password:
-        logged_user = username
-        print(f"Welcome, {students[username]['profile']['Name']}!")
-    else:
-        print("Invalid credentials.")
-
-def show_profile():
-    if logged_user:
-        print("\n--- Student Profile ---")
-        for k, v in students[logged_user]["profile"].items():
-            print(f"{k}: {v}")
-    else:
-        print("Please login first.")
-
-def update_profile():
-    global students
-    if not logged_user:
-        print("Please login first.")
-        return
-    print("\n--- Update Profile ---")
-    load_data()
-    field = input("Enter field to update (e.g., Email, Phone): ")
-    
-    
-    for key in students[logged_user]["profile"]:
-     if key.lower() == field:
- 
-        value = input(f"Enter new value for {key}: ")
-        students[logged_user]["profile"][key] = value
-        save_data()
-        print("Profile updated.")
-        return
-     
-    print("Invalid field.")
-
-def logout():
-    global logged_user
-    if logged_user:
-        print(f"User '{logged_user}' logged out.")
-        logged_user = None
-    else:
-        print("No user is currently logged in.")
-
-def quiz():
-    global students
-    if not logged_user:
-        print("Please login first.")
-        return
-    print('1. Take Quiz \n2. See Score profile\n3.menu')
-    choice = input('choose option(1 , 2 , 3)').strip()
-    if choice == '1':
-        take_quiz()
-    elif choice == '2':
-        score_profile()
-    elif choice == '3':
-        main()
-    else:
-        print('enter valid option')    
-        time.sleep(1)
-        return  quiz()    
-      
-
-def exit_program():
-    print("Exiting system!")
-    exit()
-
-def update_quiz():
-    os.makedirs('catagories', exist_ok=True)
-    category = input("Select category (1.PYTHON/2.DSA/3.CYBER_SECURITY): ").upper()
-    
-    while True:
-        data = input("Enter question and answer (format: question|answer) or 'quit' to exit: ")
-        if data.lower() == 'quit':
-            break
-
-        if '|' in data:
-            question, answer = data.split('|', 1)
-        else:
-            print("Invalid format. Use 'question|answer'.")
-            continue
-
-        files = {
-            '1': 'catagories/PYTHON.txt',
-            '2': 'catagories/DSA.txt',
-            '3': 'catagories/CYBER_SECURITY.txt'
+        profile = {
+            "Name": input("Full Name: "),
+            "Age": input("Age: "),
+            "Gender": input("Gender: "),
+            "Email": input("Email: "),
+            "Phone": input("Phone: "),
+            "Address": input("Address: "),
+            "Course": input("Course Enrolled: "),
+            "Year": input("Year of Study: "),
+            "Roll No": input("Roll Number: "),
+            "Previous Semester Marks": input("Previous semester marks: "),
         }
 
-        if category not in files:
+        password = input("Password: ")
+        self.students[username] = {
+            "password": password,
+            "profile": profile,
+            "report": {"PYTHON": [], "DSA": [], "CYBER_SECURITY": []},
+        }
+        self.save_data()
+        print("Registration successful.")
+
+    def login(self):
+        if self.logged_user:
+            print(f"Already logged in as '{self.logged_user}'. Please logout first.")
+            return
+
+        print("\n--- Login ---")
+        username = input("Username: ")
+        password = input("Password: ")
+
+        if username in self.students and self.students[username]["password"] == password:
+            self.logged_user = username
+            print(f"Welcome, {self.students[username]['profile']['Name']}!")
+        else:
+            print("Invalid credentials.")
+
+    def logout(self):
+        if self.logged_user:
+            print(f"User '{self.logged_user}' logged out.")
+            self.logged_user = None
+        else:
+            print("No user is currently logged in.")
+
+    def show_profile(self):
+        if not self.logged_user:
+            print("Please login first.")
+            return
+        print("\n--- Student Profile ---")
+        for k, v in self.students[self.logged_user]["profile"].items():
+            print(f"{k}: {v}")
+
+    def update_profile(self):
+        if not self.logged_user:
+            print("Please login first.")
+            return
+
+        print("\n--- Update Profile ---")
+        field = input("Enter field to update (e.g., Email, Phone): ").lower()
+        profile = self.students[self.logged_user]["profile"]
+
+        for key in profile:
+            if key.lower() == field:
+                value = input(f"Enter new value for {key}: ")
+                profile[key] = value
+                self.save_data()
+                print("Profile updated.")
+                return
+        print("Invalid field.")
+
+    def take_quiz(self):
+        if not self.logged_user:
+            print("Please login first.")
+            return
+
+        categories = {"1": "PYTHON", "2": "DSA", "3": "CYBER_SECURITY"}
+        print("1. PYTHON\n2. DSA\n3. CYBER_SECURITY")
+        choice = input("Choose category (1, 2, or 3): ")
+
+        if choice not in categories:
+            print("Invalid choice!")
+            return
+
+        cname = categories[choice]
+        filename = f"catagories/{cname}.txt"
+
+        if not os.path.exists(filename):
+            print("No questions available.")
+            return
+
+        with open(filename, "r") as f:
+            lines = [line.strip() for line in f if "|" in line]
+
+        if not lines:
+            print("No questions available.")
+            return
+
+        questions = random.sample(lines, min(10, len(lines)))
+        score = 0
+
+        for line in questions:
+            question, correct_answer = line.split("|", 1)
+            print("Question:", question)
+            ans = input("Select option (a,b,c,d): ").strip().lower()
+            while ans not in ["a", "b", "c", "d"]:
+                ans = input("Enter a valid input (a,b,c,d): ").strip().lower()
+
+            if ans == correct_answer.strip().lower():
+                print("Correct!")
+                score += 1
+            else:
+                print("Wrong! Correct answer was:", correct_answer)
+            time.sleep(0.5)
+
+        print(f"Quiz complete! Your score: {score}/{len(questions)}")
+        score_entry = {
+            "date": datetime.date.today().isoformat(),
+            "scores": score,
+            "total": len(questions),
+        }
+        self.students[self.logged_user]["report"][cname].append(score_entry)
+        self.save_data()
+
+    def score_profile(self):
+        if not self.logged_user:
+            print("Please login first.")
+            return
+        print("Your Score History:")
+        for category, attempts in self.students[self.logged_user]["report"].items():
+            print(f"{category}: {attempts}")
+
+    def quiz_menu(self):
+        if not self.logged_user:
+            print("Please login first.")
+            return
+        print("1. Take Quiz\n2. See Score Profile\n3. Back to Menu")
+        choice = input("Choose option (1,2,3): ").strip()
+        if choice == "1":
+            self.take_quiz()
+        elif choice == "2":
+            self.score_profile()
+        elif choice == "3":
+            return
+        else:
+            print("Invalid option.")
+
+    def update_quiz(self):
+        os.makedirs("catagories", exist_ok=True)
+        categories = {"1": "PYTHON", "2": "DSA", "3": "CYBER_SECURITY"}
+        choice = input("Select category (1.PYTHON/2.DSA/3.CYBER_SECURITY): ")
+
+        if choice not in categories:
             print("Invalid category!")
-            continue
+            return
 
-        with open(files[category], 'a') as f:
-            f.write(f"{question}|{answer}\n")
-        
-        print("Question added successfully.")
-    
-    print("Quiz update completed.")           
+        filename = f"catagories/{categories[choice]}.txt"
+        while True:
+            data = input("Enter question|answer or 'quit' to exit: ")
+            if data.lower() == "quit":
+                break
+            if "|" not in data:
+                print("Invalid format. Use 'question|answer'.")
+                continue
+            with open(filename, "a") as f:
+                f.write(data + "\n")
+            print("Question added successfully.")
 
-def main():
-    load_data()
-    while True:
-        print("\n--- Student System Menu ---")
-        print("1. Register")
-        print("2. Login")
-        print("3. Show Profile")
-        print("4. Update Profile")
-        print("5. Logout")
-        print("6. Quiz")
-        print("7. Exit")
-        if logged_user == 'admin':
-            print("8.update quiz")
-            choice = input("Choose option (1-8): ")
-        else:
-            choice = input("Choose option (1-7): ")    
+    # ------------------ Main Menu ------------------
+    def main(self):
+        while True:
+            print("\n--- Student System Menu ---")
+            print("1. Register")
+            print("2. Login")
+            print("3. Show Profile")
+            print("4. Update Profile")
+            print("5. Logout")
+            print("6. Quiz")
+            print("7. Exit")
+            if self.logged_user == "admin":
+                print("8. Update Quiz")
 
-        if choice == '1':
-            register()
-        elif choice == '2':
-            login()
-        elif choice == '3':
-            show_profile()
-        elif choice == '4':
-            update_profile()
-        elif choice == '5':
-            logout()   
-        elif choice == '6':
-            quiz()
-        elif choice== '7': 
-             exit_program()
-        elif choice== '8':
-            update_quiz() 
-        else:
-            print("Invalid choice.")
+            choice = input("Choose option: ")
+            if choice == "1":
+                self.register()
+            elif choice == "2":
+                self.login()
+            elif choice == "3":
+                self.show_profile()
+            elif choice == "4":
+                self.update_profile()
+            elif choice == "5":
+                self.logout()
+            elif choice == "6":
+                self.quiz_menu()
+            elif choice == "7":
+                print("Exiting system!")
+                break
+            elif choice == "8" and self.logged_user == "admin":
+                self.update_quiz()
+            else:
+                print("Invalid choice.")
 
-main()
 
-    
-
+if __name__ == "__main__":
+    StudentSystem().main()
